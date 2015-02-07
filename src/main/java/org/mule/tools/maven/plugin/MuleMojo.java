@@ -164,7 +164,10 @@ public class MuleMojo extends AbstractMuleMojo
         else
         {
             File jar = addArchivedClasses(archiver);
-            this.projectHelper.attachArtifact(this.project, "jar", jar);
+            if(jar != null)
+            {
+            	this.projectHelper.attachArtifact(this.project, "jar", jar);
+            }
         }
     }
 
