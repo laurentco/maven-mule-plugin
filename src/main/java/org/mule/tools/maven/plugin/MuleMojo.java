@@ -163,7 +163,8 @@ public class MuleMojo extends AbstractMuleMojo
         }
         else
         {
-            addArchivedClasses(archiver);
+            File jar = addArchivedClasses(archiver);
+            this.projectHelper.attachArtifact(this.project, "jar", jar);
         }
     }
 
@@ -193,12 +194,12 @@ public class MuleMojo extends AbstractMuleMojo
         }
     }
 
-    private void addArchivedClasses(MuleArchiver archiver) throws ArchiverException, MojoExecutionException
+    private File addArchivedClasses(MuleArchiver archiver) throws ArchiverException, MojoExecutionException
     {
         if (this.classesDirectory.exists() == false)
         {
             getLog().info(this.classesDirectory + " does not exist, skipping");
-            return;
+            return null;
         }
 
         getLog().info("Copying classes as a jar");
@@ -218,6 +219,7 @@ public class MuleMojo extends AbstractMuleMojo
             getLog().error(message, e);
             throw new MojoExecutionException(message, e);
         }
+        return jar;
     }
 
     private void addDependencies(MuleArchiver archiver) throws ArchiverException
